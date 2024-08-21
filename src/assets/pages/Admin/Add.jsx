@@ -4,24 +4,24 @@ import InputField from '../../components/Form/InputField';
 import Button from '../../components/Form/Button';
 import Label from '../../components/Form/Label';
 
-export default function RegisterPage() {
+export default function Add() {
     const { 
         register, handleSubmit, watch, formState: { errors } 
-        } = useForm({
-        defaultValues:{
-            idno: '',
-            firstname: '',
-            lastname: '',
-            image: '',
-            username: '',
-            password: ''
-        }
-        });
-        
-        const onSubmit = data => console.log(data.idno);
-        const firstname = watch('firstname');
-        const lastname = watch('lastname');
-        console.log('fname: ', firstname, 'lastname: ',lastname)
+    } = useForm({
+    defaultValues:{
+        idno: '',
+        firstname: '',
+        lastname: '',
+        image: '',
+        username: '',
+        password: ''
+    }
+    });
+    
+    const onSubmit = data => console.log(data.idno);
+    const firstname = watch('firstname');
+    const lastname = watch('lastname');
+    console.log('fname: ', firstname, 'lastname: ',lastname)
 
   return (
     <div>
@@ -30,9 +30,9 @@ export default function RegisterPage() {
                 <div className="grid grid-cols-1 md:grid-cols-1 gap-4 h-full">
                     <div className="bg-inherit p-4 h-full">
                         <div className='font-mono font-semibold'>
-                            <h1 className="text-center text-3xl font-semibold font-mono">Register as Student</h1>
-                            <div class="w-1/2 p-4 mx-auto">
-                                <form onSubmit={handleSubmit(onSubmit)}>
+                            <h1 className="text-center text-3xl font-semibold font-mono">Add Students</h1>
+                            <div className="w-1/2 p-4 mx-auto">
+                            <form onSubmit={handleSubmit(onSubmit)}>
                                     <div className="p-4">
                                         <Label htmlFor='idno' text='Student ID' />
                                         <InputField
@@ -74,7 +74,7 @@ export default function RegisterPage() {
                                     </div>
                                     <div className="p-4">
                                         <div class="col-span-full">
-                                            <label for="cover-photo" class="block text-sm font-medium leading-6 text-gray-900">Cover photo</label>
+                                            <Label htmlFor='image' text='Cover Image' />
                                             <div class="mt-2 flex justify-center rounded-lg border border-dashed border-gray-900/25 px-6 py-10">
                                                 <div class="text-center">
                                                 <svg class="mx-auto h-12 w-12 text-gray-300" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
@@ -115,7 +115,7 @@ export default function RegisterPage() {
                                         <p className="text-red-500">{errors.password?.message}</p>
                                     </div>
                                     <div className="p-4">
-                                        <Button type="submit" text='Submit' />
+                                        <Button type="submit" text='Save Student' />
                                     </div>
                                 </form>
                             </div>

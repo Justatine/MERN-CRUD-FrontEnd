@@ -55,9 +55,10 @@ export default function LoginPage() {
                         </div>
 
                         <div className='mt-5 flex justify-center'>
-                          <Button type='submit'/>
+                          <Button type='submit' text='Submit' />
                         </div>
                       </form>
+                      <p>No account yet? <a href="/signup">Create account</a></p>
                     </div>
                   </div>
                 </div>

@@ -21,7 +21,6 @@ export const getUsers = async () => {
   }
 };
 
-
 export const getUser = async (id) => {
     try {
         const res = await fetch(`${API_URL}/api/users/${id}`, {
@@ -41,3 +40,25 @@ export const getUser = async (id) => {
         throw error;
     }
 }
+
+export const createUser = async (data) => {
+    try {
+      const res = await fetch(`${API_URL}/api/users/create`, {
+        method: 'POST',
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(data)
+      });
+  
+      const result = await res.json();
+      return {
+        message: result.message,
+        status: result.status
+      };
+      
+    } catch (error) {
+      console.error('Error creating user:', error);
+      throw error;
+    }
+}  

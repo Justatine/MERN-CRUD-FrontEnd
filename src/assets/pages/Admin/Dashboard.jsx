@@ -1,34 +1,47 @@
 import React from 'react'
 import Button from '../../components/Form/Button';
 import { Link } from 'react-router-dom';
+import { useUsers } from '../../hooks/useUsers';
 
 export default function Dashboard() {
-    const studentData = [
-        {
-            idno: 1,
-            image: 'test1',
-            firstname: 'test1',
-            lastname: 'test1',
-            username: 'test1',
-            role: 'test1'
-        },
-        {
-            idno: 2,
-            image: 'test2',
-            firstname: 'test2',
-            lastname: 'test2',
-            username: 'test2',
-            role: 'test2'
-        },
-        {
-            idno: 3,
-            image: 'test3',
-            firstname: 'test3',
-            lastname: 'test3',
-            username: 'test3',
-            role: 'test3'
-        }
-    ]
+    const { users, loading, error } = useUsers();
+
+    if (loading) {
+        return <div>Loading....</div>
+    }
+
+    if (error) {
+        return <div>Error: {error}</div>
+    }
+
+    // dummy data
+    // const studentData = [
+    //     {
+    //         idno: 1,
+    //         image: 'test1',
+    //         firstname: 'test1',
+    //         lastname: 'test1',
+    //         username: 'test1',
+    //         role: 'test1'
+    //     },
+    //     {
+    //         idno: 2,
+    //         image: 'test2',
+    //         firstname: 'test2',
+    //         lastname: 'test2',
+    //         username: 'test2',
+    //         role: 'test2'
+    //     },
+    //     {
+    //         idno: 3,
+    //         image: 'test3',
+    //         firstname: 'test3',
+    //         lastname: 'test3',
+    //         username: 'test3',
+    //         role: 'test3'
+    //     }
+    // ]
+
   return (
     <div>
         <main>
@@ -72,9 +85,9 @@ export default function Dashboard() {
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            {studentData.map(student => (
+                                            {users.map(student => (
                                                 <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
-                                                    <th key={student.idno} scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                                                    <th key={student._id} scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
                                                         {student.idno}
                                                     </th>
                                                     <td class="px-6 py-4">
@@ -93,7 +106,7 @@ export default function Dashboard() {
                                                         {student.role}
                                                     </td>
                                                     <td class="px-6 py-4 flex flex-wrap justify-center">
-                                                        <Link to={`/admin/edit-student/${student.idno}`}>
+                                                        <Link to={`/admin/edit-student/${student._id}`}>
                                                             <Button type='button' text='Edit' />
                                                         </Link>
                                                         <Button type='button' text='Delete' />

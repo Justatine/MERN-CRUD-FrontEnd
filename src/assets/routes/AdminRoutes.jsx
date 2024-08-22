@@ -24,7 +24,7 @@ export default function AdminRoutes() {
                     </AdminLayout>
                 }>
             </Route>
-            <Route path='/admin/edit-student/:idno' 
+            <Route path='/admin/edit-student/:id' 
                 element={
                     <AdminLayout>
                         <Edit/>

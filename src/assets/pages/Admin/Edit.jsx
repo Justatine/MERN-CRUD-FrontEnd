@@ -1,18 +1,20 @@
-import React from 'react'
+import React, { useEffect } from 'react';
 import { useForm } from "react-hook-form";
 import InputField from '../../components/Form/InputField';
 import Button from '../../components/Form/Button';
 import Label from '../../components/Form/Label';
 import { useParams } from 'react-router-dom';
+import { useUser } from '../../hooks/useUsers';
 
-export default function Add() {
-    const { idno } = useParams();
+export default function Edit() {
+    const { id } = useParams();
+    const { user, loading, error } = useUser(id);
 
-    const { 
-        register, handleSubmit, watch, formState: { errors } 
+    const {     
+        register, handleSubmit, watch, formState: { errors }, setValue 
     } = useForm({
     defaultValues:{
-        idno: idno,
+        idno: '',
         firstname: '',
         lastname: '',
         image: '',
@@ -21,10 +23,31 @@ export default function Add() {
     }
     });
     
-    const onSubmit = data => console.log(data.idno);
+    useEffect(() => {
+        if (user) {
+            setValue('idno', user.idno || '');
+            setValue('firstname', user.firstname || '');
+            setValue('lastname', user.lastname || '');
+            setValue('username', user.username || '');
+            setValue('password', user.password || '');
+        }
+    }, [user, setValue]);
+
+    const onSubmit = data => {
+        console.log(data)
+    };
+    
     const firstname = watch('firstname');
     const lastname = watch('lastname');
     console.log('fname: ', firstname, 'lastname: ',lastname)
+
+    if (loading) {
+        return <div>Loading....</div>
+    } 
+
+    if (error) {
+        return <div>Error: {error}</div>
+    }
 
     return (
         <div>
@@ -38,13 +61,13 @@ export default function Add() {
                                     <h1 className="text-center text-3xl font-semibold font-mono">Edit Student</h1>
                                     <a href="/admin/"> <Button type='button' text='Back' /> </a>
                                 </div>
-                                <form onSubmit={handleSubmit(onSubmit)}>
+                                    <form onSubmit={handleSubmit(onSubmit)}>
                                         <div className="p-4">
                                             <Label htmlFor='idno' text='Student ID' />
                                             <InputField
                                             type="number"
                                             placeholder="ID Number"
-                                            value={idno}
+                                            // value={idno}
                                             name="idno"
                                             register={register}
                                             validation={{ 

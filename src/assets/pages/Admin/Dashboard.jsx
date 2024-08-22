@@ -1,5 +1,6 @@
 import React from 'react'
 import Button from '../../components/Form/Button';
+import { Link } from 'react-router-dom';
 
 export default function Dashboard() {
     const studentData = [
@@ -36,7 +37,7 @@ export default function Dashboard() {
                     <div className="bg-inherit p-4 h-full">
                         <div className='font-mono font-semibold'>
                             <h1 className="text-center text-3xl font-semibold font-mono">Manage Students</h1>
-                            <div className="w-3/4 p-4 mx-auto">
+                            <div className="w-full p-4 mx-auto">
                                 <div class="relative overflow-x-auto">
                                     <div className="flex flex-wrap justify-between">
                                         <p></p>
@@ -65,6 +66,9 @@ export default function Dashboard() {
                                                 <th scope="col" class="px-6 py-3">
                                                     Role
                                                 </th>
+                                                <th scope="col" class="px-6 py-3 text-center">
+                                                    Action
+                                                </th>
                                             </tr>
                                         </thead>
                                         <tbody>
@@ -87,6 +91,12 @@ export default function Dashboard() {
                                                     </td>
                                                     <td class="px-6 py-4">
                                                         {student.role}
+                                                    </td>
+                                                    <td class="px-6 py-4 flex flex-wrap justify-center">
+                                                        <Link to={`/admin/edit-student/${student.idno}`}>
+                                                            <Button type='button' text='Edit' />
+                                                        </Link>
+                                                        <Button type='button' text='Delete' />
                                                     </td>
                                                 </tr>
                                             ))}

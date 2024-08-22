@@ -30,8 +30,11 @@ export default function Add() {
                 <div className="grid grid-cols-1 md:grid-cols-1 gap-4 h-full">
                     <div className="bg-inherit p-4 h-full">
                         <div className='font-mono font-semibold'>
-                            <h1 className="text-center text-3xl font-semibold font-mono">Add Students</h1>
                             <div className="w-1/2 p-4 mx-auto">
+                            <div className="flex justify-between">
+                                <h1 className="text-center text-3xl font-semibold font-mono">Add Students</h1>
+                                <a href="/admin/"> <Button type='button' text='Back' /> </a>
+                            </div>
                             <form onSubmit={handleSubmit(onSubmit)}>
                                     <div className="p-4">
                                         <Label htmlFor='idno' text='Student ID' />

@@ -4,8 +4,13 @@ import InputField from '../../components/Form/InputField';
 import Button from '../../components/Form/Button';
 import Label from '../../components/Form/Label';
 import { useCreateUser } from '../../hooks/useUsers';
+import { useAlert } from '../../hooks/useGlobal';
+import Alert from '../../components/Form/Alert';
 
 export default function Add() {
+    const { result, loading, error, createNewUser } = useCreateUser();
+    const isAlertVisible = useAlert(result);
+
     const { 
         // watch -> for realtime onchanges
         register, handleSubmit, formState: { errors } 
@@ -21,10 +26,8 @@ export default function Add() {
         }
     });
 
-    const { result, loading, error, createNewUser } = useCreateUser();
-
     const onSubmit = async (data) => {
-        await createNewUser(data);    
+        await createNewUser(data); 
     };
 
 
@@ -53,39 +56,13 @@ export default function Add() {
                             </div>
 
                             {/* Success Alert */}
-                            {result?.status === 'success' && (
-                                <div id="alert-border-1" class="flex items-center p-4 mb-4 text-green-800 border-l-4 border-green-300 bg-blue-50 dark:text-green-400 dark:bg-gray-800 dark:border-green-800" role="alert">
-                                    <svg class="flex-shrink-0 w-4 h-4" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
-                                    <path d="M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5ZM9.5 4a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3ZM12 15H8a1 1 0 0 1 0-2h1v-3H8a1 1 0 0 1 0-2h2a1 1 0 0 1 1 1v4h1a1 1 0 0 1 0 2Z"/>
-                                    </svg>
-                                    <div class="ms-3 text-sm font-medium">
-                                        {result.message}
-                                    </div>
-                                </div>
+                            {isAlertVisible && (
+                                <Alert code="green" message={result.message} />
                             )}
 
                             {/* Error Alert */}
                             {error && (
-                                <div
-                                className="flex items-center p-4 mb-4 text-red-800 border-l-4 border-red-500 bg-red-50"
-                                role="alert"
-                                >
-                                <svg
-                                    className="flex-shrink-0 w-5 h-5 text-red-700"
-                                    xmlns="http://www.w3.org/2000/svg"
-                                    fill="currentColor"
-                                    viewBox="0 0 20 20"
-                                >
-                                    <path
-                                    fillRule="evenodd"
-                                    d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-11V5a1 1 0 10-2 0v2a1 1 0 002 0zm0 4a1 1 0 00-2 0v4a1 1 0 002 0v-4z"
-                                    clipRule="evenodd"
-                                    />
-                                </svg>
-                                <span className="ml-3 text-sm font-medium">
-                                    {error}
-                                </span>
-                                </div>
+                                <Alert code="red" message={error} />
                             )}
 
                             <form onSubmit={handleSubmit(onSubmit)}>

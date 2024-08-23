@@ -62,3 +62,27 @@ export const createUser = async (data) => {
       throw error;
     }
 }  
+
+export const editUser = async (id, data) => {
+  try {
+    const res = await fetch(`${API_URL}/api/users/update/${id}`, {
+      method: 'PUT',
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(data)
+    })
+
+    if (!res.ok) {
+      throw new Error('Failed to update user');
+    }
+    const result = await res.json()
+    return {
+      status: result.status,
+      message: result.message
+    }
+  } catch (error) {
+    console.error('Error updating user: ', error)
+    throw error;
+  }
+}

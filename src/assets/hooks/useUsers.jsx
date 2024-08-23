@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { createUser, getUser, getUsers } from '../services/adminService';
+import { createUser, editUser, getUser, getUsers } from '../services/adminService';
 
 export const useUsers = () => {
   const [users, setUsers] = useState([]);
@@ -86,3 +86,19 @@ export const useCreateUser = () => {
 
   return { result, loading, error, createNewUser};
 };
+
+export const useUpdateuser = () => {
+  const [result, setresult] = useState(null);
+  const [updateError, setUpdateError] = useState(null);
+
+  const updateOldUser = async (id,data) => {
+    try {
+      const updateUser = await editUser(id,data);
+      setresult(updateUser)
+    } catch (error) {
+      setUpdateError(error)
+    } 
+  }
+
+  return { result, updateError, updateOldUser };
+}

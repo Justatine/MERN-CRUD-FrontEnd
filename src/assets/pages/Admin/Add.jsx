@@ -52,6 +52,7 @@ export default function Add() {
                                 <a href="/admin/"> <Button type='button' text='Back' /> </a>
                             </div>
 
+                            {/* Success Alert */}
                             {result?.status === 'success' && (
                                 <div id="alert-border-1" class="flex items-center p-4 mb-4 text-green-800 border-l-4 border-green-300 bg-blue-50 dark:text-green-400 dark:bg-gray-800 dark:border-green-800" role="alert">
                                     <svg class="flex-shrink-0 w-4 h-4" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">

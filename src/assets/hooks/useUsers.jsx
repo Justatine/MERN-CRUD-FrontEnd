@@ -1,37 +1,30 @@
-import { useState, useEffect } from 'react';
-import { createUser, editUser, getUser, getUsers } from '../services/adminService';
+import { useState, useEffect, useCallback } from 'react';
+import { createUser, deleteUser, editUser, getUser, getUsers } from '../services/adminService';
+
 
 export const useUsers = () => {
   const [users, setUsers] = useState([]);
-  const [loading, setloading] = useState(true);
-  const [error, seterror] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
 
-  useEffect(() => {
-    let isMounted = true;
-
-    const fetchUsers = async () => {
-      try {
-        const data = await getUsers();
-        if (isMounted) {
-          setUsers(data)
-          setloading(false)
-        }
-      } catch (error) {
-        if (isMounted) {
-          seterror(error.message)
-          setloading(false)
-        }
-      }
-    }
-    
-    fetchUsers();
-
-    return () => {
-      isMounted = false;
+  const fetchUsers = useCallback(async () => {
+    setLoading(true);
+    try {
+      const data = await getUsers();
+      setUsers(data);
+    } catch (err) {
+      setError(err.message || 'Failed to fetch users');
+    } finally {
+      setLoading(false);
     }
   }, []);
-  return { users, loading, error }; 
-}
+
+  useEffect(() => {
+    fetchUsers();
+  }, [fetchUsers]);
+
+  return { users, loading, error, refresh: fetchUsers, setUsers };
+};
 
 export const useUser = (id) => {
   const [user, setuser] = useState([]);
@@ -102,3 +95,19 @@ export const useUpdateuser = () => {
 
   return { result, updateError, updateOldUser };
 }
+
+export const useDeletuser = () => {
+  const [result, setResult] = useState(null);
+  const [deleteError, setDeleteError] = useState(null);
+
+  const deleteOldUser = async (id) => {
+    try {
+      const deleteUserResult  = await deleteUser(id);
+      setResult(deleteUserResult)
+    } catch (error) {
+      setDeleteError(deleteError)
+    }
+  }
+  return { result, deleteError, deleteOldUser };
+}
+

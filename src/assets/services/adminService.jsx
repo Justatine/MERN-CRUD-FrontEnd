@@ -86,3 +86,28 @@ export const editUser = async (id, data) => {
     throw error;
   }
 }
+
+export const deleteUser = async (id) => {
+  try {
+    const res = await fetch(`${API_URL}/api/users/archive`, {
+      method: 'DELETE',
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ id })
+    })
+
+    if (!res.ok) {
+      throw new Error('Failed to update user');
+    }
+
+    const result = await res.json()
+    return{ 
+      status: result.status,
+      message: result.message
+    }
+  } catch (error) {
+    console.error('Error deleting user: ',error)
+    throw error;
+  }
+}

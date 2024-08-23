@@ -1,11 +1,28 @@
 import React from 'react'
 import Button from '../../components/Form/Button';
 import { Link } from 'react-router-dom';
-import { useUsers } from '../../hooks/useUsers';
+import { useDeletuser, useUsers } from '../../hooks/useUsers';
+import { useAlert } from '../../hooks/useGlobal';
+import Alert from '../../components/Form/Alert';
 
 export default function Dashboard() {
-    const { users, loading, error } = useUsers();
+    const { users, loading, error, refresh: refreshUsers, setUsers  } = useUsers();
+    const { result, deleteError, deleteOldUser } =  useDeletuser();
+    const isAlertVisible = useAlert(result);
 
+    const handleClick = async (id) => {
+        const updatedUsers = users.filter(user => user._id !== id);
+        setUsers(updatedUsers);
+    
+        try {
+          await deleteOldUser(id);
+          refreshUsers(); 
+        } catch (error) {
+          refreshUsers();
+          console.error('Error deleting user:', error);
+        }
+    }
+    
     if (loading) {
         return <div>Loading....</div>
     }
@@ -45,6 +62,16 @@ export default function Dashboard() {
     return (
         <div>
             <main>
+                {/* Success Alert */}
+                {isAlertVisible && (
+                    <Alert code="green" message={result.message} />
+                )}
+
+                {/* Error Alert */}
+                {deleteError && (
+                    <Alert code="red" message={deleteError} />
+                )}
+                
                 <div className="mx-auto max-w-8xl px-4 py-6 sm:px-6 lg:px-8 bg-slate-50">
                     <div className="grid grid-cols-1 md:grid-cols-1 gap-4 h-full">
                         <div className="bg-inherit p-4 h-full">
@@ -58,6 +85,7 @@ export default function Dashboard() {
                                                 <Button type='button' text='Add' />
                                             </a>
                                         </div>
+
                                         <table className="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
                                             <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
                                                 <tr>
@@ -109,7 +137,7 @@ export default function Dashboard() {
                                                             <Link to={`/admin/edit-student/${student._id}`}>
                                                                 <Button type='button' text='Edit' />
                                                             </Link>
-                                                            <Button type='button' text='Delete' />
+                                                            <Button onClick={() => handleClick(student._id)} type='button' text='Delete' />
                                                         </td>
                                                     </tr>
                                                 ))}

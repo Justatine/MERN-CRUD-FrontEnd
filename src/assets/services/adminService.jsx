@@ -1,4 +1,5 @@
 const API_URL = process.env.REACT_APP_API_URL;
+const token = localStorage.getItem('accessToken');
 
 export const getUsers = async () => {
   try {
@@ -6,6 +7,7 @@ export const getUsers = async () => {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
+        "Authorization": `Bearer ${token}`
       },
     });
 
@@ -27,6 +29,7 @@ export const getUser = async (id) => {
             method: "GET",
             headers: {
                 "Content-Type": "application/json",
+                "Authorization": `Bearer ${token}`
             }
         })
         if (!res.ok) {
@@ -47,6 +50,7 @@ export const createUser = async (data) => {
         method: 'POST',
         headers: {
           "Content-Type": "application/json",
+          "Authorization": `Bearer ${token}`
         },
         body: JSON.stringify(data)
       });
@@ -69,6 +73,7 @@ export const editUser = async (id, data) => {
       method: 'PUT',
       headers: {
         "Content-Type": "application/json",
+        "Authorization": `Bearer ${token}`
       },
       body: JSON.stringify(data)
     })
@@ -93,6 +98,7 @@ export const deleteUser = async (id) => {
       method: 'DELETE',
       headers: {
         "Content-Type": "application/json",
+        "Authorization": `Bearer ${token}`
       },
       body: JSON.stringify({ id })
     })

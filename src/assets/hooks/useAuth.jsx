@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { loginUser } from '../services/authServices';
+import { loginUser, logoutUser } from '../services/authServices';
 
 export const useLoginuser = () => {
     const [result, setResult] = useState(null);
@@ -23,3 +23,19 @@ export const useLoginuser = () => {
   
     return { result, loading, error, signInUser };
 };
+
+export const useLogoutuser = () => {
+  const [logoutError, setLogoutError] = useState(null);
+
+  const userLogout = async () => {
+    try {
+      await logoutUser();
+      setLogoutError(null)
+      localStorage.removeItem('accessToken')
+      
+    } catch (error) {
+      setLogoutError(error)
+    }
+  };
+  return { logoutError, userLogout }
+}

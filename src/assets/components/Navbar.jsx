@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from 'react';
-import { useLocation } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { Disclosure, DisclosureButton, DisclosurePanel, Menu } from '@headlessui/react';
 import { Bars3Icon, XMarkIcon } from '@heroicons/react/24/outline';
+import { useLogoutuser } from '../hooks/useAuth';
 
 function classNames(...classes) {
   return classes.filter(Boolean).join(' ');
@@ -10,6 +11,8 @@ function classNames(...classes) {
 export default function Navbar() {
   const location = useLocation();
   const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const { userLogout } = useLogoutuser();
+  const navigate = useNavigate();
 
   useEffect(() => {
     const token = localStorage.getItem('accessToken');
@@ -17,13 +20,18 @@ export default function Navbar() {
   }, []);
 
   const handleLogoutTrigger = async () => {
-    console.log('logout')
-  }
+    await userLogout();
+    alert('Logout successful')
 
+    setTimeout(() => {
+      navigate('/');
+    }, 3000);
+  }
+  
   const navigation = [
     { name: 'Home', href: '/', current: location.pathname === '/' },
     isLoggedIn
-      ? { name: 'Logout', href: '/signout', current: location.pathname === '/logout', onClick: handleLogoutTrigger }
+      ? { name: 'Logout', current: location.pathname === '/logout', onClick: handleLogoutTrigger }
       : { name: 'Login', href: '/signin', current: location.pathname === '/signin' },
   ];
 

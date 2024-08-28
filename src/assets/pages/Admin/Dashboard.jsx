@@ -4,12 +4,10 @@ import { Link } from 'react-router-dom';
 import { useDeletuser, useUsers } from '../../hooks/useUsers';
 import { useAlert } from '../../hooks/useGlobal';
 import Alert from '../../components/Form/Alert';
-// import { useLogoutuser } from '../../hooks/useAuth';
 
 export default function Dashboard() {
     const { users, loading, error, refresh: refreshUsers, setUsers  } = useUsers();
     const { result, deleteError, deleteOldUser } =  useDeletuser();
-    // const { logoutResponse } = useLogoutuser();
     const isAlertVisible = useAlert(result);
 
     const handleClick = async (id) => {

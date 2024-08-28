@@ -21,19 +21,23 @@ export default function Navbar() {
 
   const handleLogoutTrigger = async () => {
     await userLogout();
-    alert('Logout successful')
+    alert('Logging out')
 
     setTimeout(() => {
       navigate('/');
-    }, 3000);
+    }, 2000);
   }
   
-  const navigation = [
-    { name: 'Home', href: '/', current: location.pathname === '/' },
-    isLoggedIn
-      ? { name: 'Logout', current: location.pathname === '/logout', onClick: handleLogoutTrigger }
-      : { name: 'Login', href: '/signin', current: location.pathname === '/signin' },
+  const navigation = isLoggedIn
+    ? [
+        { name: 'Home', href: '/admin', current: location.pathname === '/admin' || location.pathname === '/student' },
+        { name: 'Logout', current: location.pathname === '/logout', onClick: handleLogoutTrigger }
+      ]
+    : [
+        { name: 'Home', href: '/', current: location.pathname === '/' },
+        { name: 'Login', href: '/signin', current: location.pathname === '/signin' }
   ];
+
 
   return (
     <div>

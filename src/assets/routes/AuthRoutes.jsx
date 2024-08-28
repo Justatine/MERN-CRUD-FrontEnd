@@ -1,7 +1,7 @@
 import React from 'react';
 import { Navigate } from 'react-router-dom';
 
-const withAuth = (WrappedComponent) => {
+const AuthRoutes = (WrappedComponent) => {
   return (props) => {
     const token = localStorage.getItem('accessToken');
 
@@ -13,4 +13,4 @@ const withAuth = (WrappedComponent) => {
   };
 };
 
-export default withAuth;
+export default AuthRoutes;

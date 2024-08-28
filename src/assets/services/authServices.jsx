@@ -65,7 +65,8 @@ export const fetchWithAuth = async (url, options = {}) => {
     return await res.json();
   } catch (error) {
     console.error('Error fetching with auth:', error);
-    throw error;
+    window.location.href = "/";
+    // throw error;
   }
 };
 

@@ -1,7 +1,6 @@
 import { useState, useEffect, useCallback } from 'react';
 import { createUser, deleteUser, editUser, getUser, getUsers } from '../services/adminService';
 
-
 export const useUsers = () => {
   const [users, setUsers] = useState([]);
   const [loading, setLoading] = useState(true);

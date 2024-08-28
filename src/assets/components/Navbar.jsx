@@ -1,11 +1,7 @@
+import React, { useState, useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
 import { Disclosure, DisclosureButton, DisclosurePanel, Menu } from '@headlessui/react';
 import { Bars3Icon, XMarkIcon } from '@heroicons/react/24/outline';
-
-const navigation = [
-  { name: 'Home', href: '/', current: false },
-  { name: 'Login', href: '/signin', current: false },
-];
 
 function classNames(...classes) {
   return classes.filter(Boolean).join(' ');
@@ -13,6 +9,23 @@ function classNames(...classes) {
 
 export default function Navbar() {
   const location = useLocation();
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+
+  useEffect(() => {
+    const token = localStorage.getItem('accessToken');
+    setIsLoggedIn(!!token); 
+  }, []);
+
+  const handleLogoutTrigger = async () => {
+    console.log('logout')
+  }
+
+  const navigation = [
+    { name: 'Home', href: '/', current: location.pathname === '/' },
+    isLoggedIn
+      ? { name: 'Logout', href: '/signout', current: location.pathname === '/logout', onClick: handleLogoutTrigger }
+      : { name: 'Login', href: '/signin', current: location.pathname === '/signin' },
+  ];
 
   return (
     <div>
@@ -46,11 +59,10 @@ export default function Navbar() {
                     <a
                       key={item.name}
                       href={item.href}
-                      aria-current={location.pathname === item.href ? 'page' : undefined}
+                      onClick={item.onClick}
+                      aria-current={item.current ? 'page' : undefined}
                       className={classNames(
-                        location.pathname === item.href
-                          ? 'bg-green-700 text-white'
-                          : 'text-green-300 hover:bg-green-700 hover:text-white',
+                        item.current ? 'bg-green-700 text-white' : 'text-green-300 hover:bg-green-700 hover:text-white',
                         'rounded-md px-3 py-2 text-sm font-medium'
                       )}
                     >
@@ -70,11 +82,10 @@ export default function Navbar() {
                 key={item.name}
                 as="a"
                 href={item.href}
-                aria-current={location.pathname === item.href ? 'page' : undefined}
+                onClick={item.onClick} 
+                aria-current={item.current ? 'page' : undefined}
                 className={classNames(
-                  location.pathname === item.href
-                    ? 'bg-green-700 text-white'
-                    : 'text-green-300 hover:bg-green-700 hover:text-white',
+                  item.current ? 'bg-green-700 text-white' : 'text-green-300 hover:bg-green-700 hover:text-white',
                   'block rounded-md px-3 py-2 text-base font-medium'
                 )}
               >

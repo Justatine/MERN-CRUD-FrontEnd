@@ -29,6 +29,7 @@ const AppRoutes = () => {
                     </PublicLayout>
                 }>
                 </Route>
+                <Route path='/signout'></Route>
             </Routes>   
         </Router>
     </div>

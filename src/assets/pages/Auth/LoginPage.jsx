@@ -3,13 +3,13 @@ import { useForm } from "react-hook-form";
 import InputField from '../../components/Form/InputField';
 import Button from '../../components/Form/Button';
 import Label from '../../components/Form/Label';
-import { useAlert } from '../../hooks/useGlobal';
+import { useLoginAlert } from '../../hooks/useGlobal';
 import { useLoginuser } from '../../hooks/useAuth';
 import Alert from '../../components/Form/Alert';
 
 export default function LoginPage() {
   const { result, loading, error, signInUser } = useLoginuser(); 
-  const isAlertVisible = useAlert(result);
+  const isAlertVisible = useLoginAlert(result);
 
   const { 
     // add 'watch' for realtime changes
